@@ -6,19 +6,6 @@
     android:background="#fff">
 
 
-    <TextView
-        android:text="User"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/timeline_tv_user"
-        android:layout_below="@+id/timeline_image"
-        android:layout_alignLeft="@+id/timeline_image"
-        android:layout_alignStart="@+id/timeline_image"
-        android:textAlignment="textStart"
-        android:textSize="18sp"
-        android:layout_toLeftOf="@+id/timeline_tv_text"
-        android:layout_toStartOf="@+id/timeline_tv_text" />
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,7 +19,7 @@
 
     <TextView
         android:text="Title"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="29dp"
         android:layout_marginStart="29dp"
@@ -43,8 +30,6 @@
 
     <TextView
         android:text="Text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/timeline_tv_text"
         android:gravity="start"
         android:textAlignment="textStart"
@@ -52,5 +37,17 @@
         android:layout_alignLeft="@+id/timeline_tv_title"
         android:layout_alignStart="@+id/timeline_tv_title"
         android:layout_marginLeft="23dp"
-        android:layout_marginStart="23dp" />
+        android:layout_marginStart="23dp"
+        android:layout_width="250dp"
+        android:layout_height="50dp" />
+
+    <TextView
+        android:text="User"
+        android:layout_height="wrap_content"
+        android:id="@+id/timeline_tv_user"
+        android:textSize="18sp"
+        android:layout_below="@+id/timeline_image"
+        android:layout_alignLeft="@+id/timeline_image"
+        android:layout_alignStart="@+id/timeline_image"
+        android:layout_width="100dp" />
 </RelativeLayout>

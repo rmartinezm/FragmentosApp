@@ -1,6 +1,7 @@
 package com.programacion.robertomtz.fragmentosapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,12 @@ import java.util.ArrayList;
  * Created by rmartinezm on 10/04/2017.
  */
 
-public class BussinesAdapter extends BaseAdapter {
+public class BusinessAdapter extends BaseAdapter {
 
     private ArrayList<Negocio> negocios;
     private Context context;
 
-    public BussinesAdapter(ArrayList<Negocio> negocios, Context context){
+    public BusinessAdapter(ArrayList<Negocio> negocios, Context context){
         this.negocios = negocios;
         this.context = context;
     }
@@ -43,19 +44,11 @@ public class BussinesAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.adapter_bussines, null);
+        View v = inflater.inflate(R.layout.adapter_business, null);
 
         Negocio negocio = negocios.get(position);
 
-        Button button = (Button) v.findViewById(R.id.bussines_button_map);
-        TextView textView = (TextView) v.findViewById(R.id.bussines_tv_name);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Go to map
-            }
-        });
+        TextView textView = (TextView) v.findViewById(R.id.business_tv_name);
         textView.setText(negocio.getNombre());
 
         return v;

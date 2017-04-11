@@ -10,12 +10,12 @@ import java.util.ArrayList;
  * Created by rmartinezm on 09/04/2017.
  */
 
-public class BussinesData {
+public class BusinessData {
 
     @SerializedName("business_data")
     private ArrayList<Negocio> negocios;
 
-    public BussinesData(ArrayList<Negocio> negocios) {
+    public BusinessData(ArrayList<Negocio> negocios) {
         this.negocios = negocios;
     }
 

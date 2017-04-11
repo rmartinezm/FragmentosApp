@@ -1,5 +1,8 @@
 package com.programacion.robertomtz.fragmentosapp;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -8,12 +11,19 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class ViewPagerActivity extends AppCompatActivity {
 
@@ -84,10 +94,11 @@ public class ViewPagerActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.list_fragment_bussines, container, false);
+            View rootView = inflater.inflate(R.layout.list_fragment_business, container, false);
 
             ListView listView = (ListView) rootView.findViewById(R.id.list_item_bussines);
-            BussinesAdapter adapter = new BussinesAdapter(MainActivity.negocios.getNegocios(), rootView.getContext());
+
+            BusinessAdapter adapter = new BusinessAdapter(MainActivity.negocios.getNegocios(), rootView.getContext());
 
             listView.setAdapter(adapter);
             return rootView;

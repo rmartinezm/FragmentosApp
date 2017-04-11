@@ -1,7 +1,6 @@
 package com.programacion.robertomtz.fragmentosapp;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,15 +12,13 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity {
 
     private ProgressBar pb;
     public final String TIMELINE_JSON = getTimelineJson();
     public static Timeline timeline;
     public final String NEGOCIOS_JSON = getNegociosJson();
-    public static BussinesData negocios;
+    public static BusinessData negocios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             timeline = gson.fromJson(TIMELINE_JSON, Timeline.class);
 
             gson = new GsonBuilder().create();
-            negocios = gson.fromJson(NEGOCIOS_JSON, BussinesData.class);
+            negocios = gson.fromJson(NEGOCIOS_JSON, BusinessData.class);
 
             if (isCancelled())
                 return false;
