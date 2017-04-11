@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -13,6 +14,14 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,52 +44,52 @@ public class MainActivity extends AppCompatActivity {
 
     private String getTimelineJson(){
         return "{\n" +
-                "  \"status\": 200,\n" +
-                "  \"timeline\":[\n" +
-                "    {\n" +
-                "      \"user\": \"elmontoya7\",\n" +
-                "      \"content_title\": \"Hola\",\n" +
-                "      \"content_text\": \"Mi primer post! :)\",\n" +
-                "      \"image\": \"\"\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"user\": \"Tianna G\",\n" +
-                "      \"content_title\": \"\",\n" +
-                "      \"content_text\": \"Saludos desde Aca :*\",\n" +
-                "      \"image\": \"https://instagram.fmex1-1.fna.fbcdn.net/t51.2885-15/s640x640/sh0.08/e35/17596711_1051709754973052_4041463920869769216_n.jpg\"\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"user\": \"Vicente Guerra\",\n" +
-                "      \"content_title\": \"\",\n" +
-                "      \"content_text\": \"Está escuchando a Tame Impala: The less I know the better\",\n" +
-                "      \"image\": \"https://crashmexico.files.wordpress.com/2015/12/tame-impala-currents.png?w=940\"\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"user\": \"Jimena Sanchez\",\n" +
-                "      \"content_title\": \"Porque gorda...\",\n" +
-                "      \"content_text\": \"\",\n" +
-                "      \"image\": \"https://instagram.fmex1-1.fna.fbcdn.net/t51.2885-15/s640x640/sh0.08/e35/17596587_281442132284960_8417271799984685056_n.jpg\"\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"user\": \"Ana Cheri\",\n" +
-                "      \"content_title\": \"Vida saludable\",\n" +
-                "      \"content_text\": \"Sigan a proteina @prothxxx\",\n" +
-                "      \"image\": \"https://instagram.fmex1-1.fna.fbcdn.net/t51.2885-15/sh0.08/e35/p640x640/17662319_751412565035209_7396096050655657984_n.jpg\"\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"user\": \"Cesar Cárdenas\",\n" +
-                "      \"content_title\": \"Bots!\",\n" +
-                "      \"content_text\": \"Curso de bots en UNAM Mobile el próximo jueves 3 de agosto 2017. No faltes!\",\n" +
-                "      \"image\": \"\"\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"user\": \"Alexis Texas\",\n" +
-                "      \"content_title\": \"\",\n" +
-                "      \"content_text\": \"\",\n" +
-                "      \"image\": \"https://instagram.fmex1-1.fna.fbcdn.net/t51.2885-15/s640x640/sh0.08/e35/15043790_1039905936114208_5347038785198620672_n.jpg\"\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
+             "  \"status\": 200,\n" +
+             "  \"timeline\":[\n" +
+             "    {\n" +
+             "      \"user\": \"elmontoya7\",\n" +
+             "      \"content_title\": \"Hola\",\n" +
+             "      \"content_text\": \"Mi primer post! :)\",\n" +
+             "      \"image\": \"\"\n" +
+             "    },\n" +
+             "    {\n" +
+             "      \"user\": \"Tianna G\",\n" +
+             "      \"content_title\": \"\",\n" +
+             "      \"content_text\": \"Saludos desde Aca :*\",\n" +
+             "      \"image\": \"https://instagram.fmex1-1.fna.fbcdn.net/t51.2885-15/s640x640/sh0.08/e35/17596711_1051709754973052_4041463920869769216_n.jpg\"\n" +
+             "    },\n" +
+             "    {\n" +
+             "      \"user\": \"Vicente Guerra\",\n" +
+             "      \"content_title\": \"\",\n" +
+             "      \"content_text\": \"Está escuchando a Tame Impala: The less I know the better\",\n" +
+             "      \"image\": \"https://crashmexico.files.wordpress.com/2015/12/tame-impala-currents.png?w=940\"\n" +
+             "    },\n" +
+             "    {\n" +
+             "      \"user\": \"Jimena Sanchez\",\n" +
+             "      \"content_title\": \"Porque gorda...\",\n" +
+             "      \"content_text\": \"\",\n" +
+             "      \"image\": \"https://instagram.fmex1-1.fna.fbcdn.net/t51.2885-15/s640x640/sh0.08/e35/17596587_281442132284960_8417271799984685056_n.jpg\"\n" +
+             "    },\n" +
+             "    {\n" +
+             "      \"user\": \"Ana Cheri\",\n" +
+             "      \"content_title\": \"Vida saludable\",\n" +
+             "      \"content_text\": \"Sigan a proteina @prothxxx\",\n" +
+             "      \"image\": \"https://instagram.fmex1-1.fna.fbcdn.net/t51.2885-15/sh0.08/e35/p640x640/17662319_751412565035209_7396096050655657984_n.jpg\"\n" +
+             "    },\n" +
+             "    {\n" +
+             "      \"user\": \"Cesar Cárdenas\",\n" +
+             "      \"content_title\": \"Bots!\",\n" +
+             "      \"content_text\": \"Curso de bots en UNAM Mobile el próximo jueves 3 de agosto 2017. No faltes!\",\n" +
+             "      \"image\": \"\"\n" +
+             "    },\n" +
+             "    {\n" +
+             "      \"user\": \"Alexis Texas\",\n" +
+             "      \"content_title\": \"\",\n" +
+             "      \"content_text\": \"\",\n" +
+             "      \"image\": \"https://instagram.fmex1-1.fna.fbcdn.net/t51.2885-15/s640x640/sh0.08/e35/15043790_1039905936114208_5347038785198620672_n.jpg\"\n" +
+             "    }\n" +
+             "  ]\n" +
+             "}";
     }
 
     private String getNegociosJson(){

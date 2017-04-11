@@ -7,7 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -52,7 +55,9 @@ public class BusinessAdapter extends BaseAdapter {
 
         TextView textView = (TextView) v.findViewById(R.id.business_tv_name);
         textView.setText(negocio.getNombre());
+        ImageView iv = (ImageView) v.findViewById(R.id.business_iv_image);
         Button btn = (Button) v.findViewById(R.id.business_button_map);
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,6 +67,11 @@ public class BusinessAdapter extends BaseAdapter {
             }
         });
 
+        if (!negocio.getImagen().isEmpty())
+                Glide.with(context)
+                .load(negocio.getImagen())
+                .crossFade()
+                .into(iv);
 
         return v;
     }

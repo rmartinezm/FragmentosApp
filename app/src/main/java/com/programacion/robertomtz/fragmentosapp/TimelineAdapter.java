@@ -11,6 +11,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -59,46 +61,16 @@ public class TimelineAdapter extends BaseAdapter {
         TextView title= (TextView) v.findViewById(R.id.timeline_tv_title);
         ImageView iv = (ImageView) v.findViewById(R.id.timeline_image);
 
-        String urldisplay = historia.getImage();
-        Bitmap icon = null;
-        try {
-            icon = BitmapFactory.decodeStream((InputStream)new URL(urldisplay).getContent());
-        } catch (Exception e) {
-            //Log.e("Error", e.getMessage());
-            e.printStackTrace();
-        }
-
         user.setText(historia.getUser() +  " ");
         text.setText(historia.getText() +  " ");
         title.setText(historia.getTitle() +  " ");
 
-        if (icon != null)
-            iv.setImageBitmap(icon);
+        if (!historia.getImage().isEmpty())
+            Glide.with(context)
+                    .load(historia.getImage())
+                    .crossFade()
+                    .into(iv);
 
-
-        /**
-        Bitmap bm = getBitmapFromURL(historia.getImage());
-        if (bm != null)
-            iv.setImageBitmap(bm);
-        **/
         return v;
     }
-
-    /** Arroja NetworkOnMainThreadException connection.connect()
-
-    public Bitmap getBitmapFromURL(String src) {
-        try {
-            java.net.URL url = new java.net.URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-     **/
 }

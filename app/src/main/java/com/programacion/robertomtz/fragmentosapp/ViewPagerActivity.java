@@ -1,12 +1,9 @@
 package com.programacion.robertomtz.fragmentosapp;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.support.v4.content.SharedPreferencesCompat;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -15,21 +12,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Switch;
-
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class ViewPagerActivity extends AppCompatActivity {
 
@@ -61,7 +51,10 @@ public class ViewPagerActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
+        if (id == R.id.github_rmartinezm) {
+            String urlGit = "https://github.com/rmartinezm/FragmentosApp";
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlGit));
+            startActivity(intent);
             return true;
         }
 
@@ -118,7 +111,6 @@ public class ViewPagerActivity extends AppCompatActivity {
 
     public static class PreferenciasFragment extends Fragment {
 
-        private boolean guardar;
         private EditText user;
         private EditText pass;
         private Switch aSwitch;
@@ -137,56 +129,40 @@ public class ViewPagerActivity extends AppCompatActivity {
             user = (EditText) rootView.findViewById(R.id.preferencias_et_nombre);
             pass = (EditText) rootView.findViewById(R.id.preferencias_et_password);
             aSwitch = (Switch) rootView.findViewById(R.id.preferencias_switch);
-            guardar = aSwitch.isChecked();
 
             // Tomamos las preferencias
             SharedPreferences sp = rootView.getContext().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
-            aSwitch.setChecked(sp.getBoolean("cheked", false));
+            aSwitch.setChecked(sp.getBoolean("switch", false));
             user.setText(sp.getString("user", ""));
             pass.setText(sp.getString("pass", ""));
-
-            aSwitch.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    guardar = !guardar;
-                }
-            });
             return rootView;
         }
 
         @Override
         public void onStart() {
             SharedPreferences sp = getContext().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
-            if (guardar){
-                aSwitch.setChecked(true);
-                user.setText(sp.getString("user", ""));
-                pass.setText(sp.getString("pass", ""));
-            }else {
-                aSwitch.setChecked(false);
-                user.setText("");
-                pass.setText("");
-            }
+            aSwitch.setChecked(sp.getBoolean("switch", false));
+            user.setText(sp.getString("user", ""));
+            pass.setText(sp.getString("pass", ""));
             user.requestFocus();
             super.onStart();
         }
 
         @Override
         public void onStop() {
-            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            if (guardar){
-                editor.putBoolean("cheked", true);
+            SharedPreferences sp = getContext().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            if (aSwitch.isChecked()){
+                editor.putBoolean("switch",aSwitch.isChecked());
                 editor.putString("user", user.getText().toString());
                 editor.putString("pass", pass.getText().toString());
-                editor.apply();
-                editor.commit();
             }else {
-                editor.putBoolean("cheked", false);
+                editor.putBoolean("switch", false);
                 editor.putString("user", "");
                 editor.putString("pass", "");
-                editor.apply();
-                editor.commit();
             }
+            editor.apply();
+            editor.commit();
             super.onStop();
         }
     }

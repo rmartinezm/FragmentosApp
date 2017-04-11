@@ -2,20 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="100dp"
     android:background="#fff">
 
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/ic_launcher"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp"
-        android:id="@+id/timeline_image"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
     <TextView
         android:text="Title"
@@ -46,8 +35,19 @@
         android:layout_height="wrap_content"
         android:id="@+id/timeline_tv_user"
         android:textSize="18sp"
+        android:layout_width="100dp"
         android:layout_below="@+id/timeline_image"
         android:layout_alignLeft="@+id/timeline_image"
-        android:layout_alignStart="@+id/timeline_image"
-        android:layout_width="100dp" />
+        android:layout_alignStart="@+id/timeline_image" />
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="10dp"
+        android:id="@+id/timeline_image"
+        android:layout_alignBottom="@+id/timeline_tv_text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
