@@ -1,9 +1,11 @@
 package com.programacion.robertomtz.fragmentosapp;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -11,6 +13,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -59,7 +62,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Agraga un marcador en la ubicacion del negocio y mueve la camara a el
 
         LatLng ubicacion = new LatLng(lat, lon);
-        mMap.addMarker(new MarkerOptions().position(ubicacion).title(negocio.getNombre()));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion, 15.0f));
+        MarkerOptions marcador = new MarkerOptions().position(ubicacion).title(negocio.getNombre());
+        mMap.addMarker(marcador);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion, 16.5f));
+
+        AlertDialog.Builder buider = new AlertDialog.Builder(this);
+        buider.setTitle("Informacion del Negocio").setMessage("Nombre: "+ negocio.getNombre() + "\nLatitud: " + lat + "\nLongitud: " + lon).
+                setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                }).show();
+
+
     }
 }

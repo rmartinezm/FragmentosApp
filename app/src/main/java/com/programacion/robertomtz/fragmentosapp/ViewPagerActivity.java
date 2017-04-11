@@ -1,9 +1,12 @@
 package com.programacion.robertomtz.fragmentosapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v4.content.SharedPreferencesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -19,8 +22,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Switch;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -61,6 +66,11 @@ public class ViewPagerActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 
     /** FRAGMENTS **/
@@ -106,6 +116,81 @@ public class ViewPagerActivity extends AppCompatActivity {
         }
     }
 
+    public static class PreferenciasFragment extends Fragment {
+
+        private boolean guardar;
+        private EditText user;
+        private EditText pass;
+        private Switch aSwitch;
+
+        public PreferenciasFragment() {}
+
+        public static PreferenciasFragment newInstance() {
+            return new PreferenciasFragment();
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.preferencias_fragment, container, false);
+
+            user = (EditText) rootView.findViewById(R.id.preferencias_et_nombre);
+            pass = (EditText) rootView.findViewById(R.id.preferencias_et_password);
+            aSwitch = (Switch) rootView.findViewById(R.id.preferencias_switch);
+            guardar = aSwitch.isChecked();
+
+            // Tomamos las preferencias
+            SharedPreferences sp = rootView.getContext().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+            aSwitch.setChecked(sp.getBoolean("cheked", false));
+            user.setText(sp.getString("user", ""));
+            pass.setText(sp.getString("pass", ""));
+
+            aSwitch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    guardar = !guardar;
+                }
+            });
+            return rootView;
+        }
+
+        @Override
+        public void onStart() {
+            SharedPreferences sp = getContext().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+            if (guardar){
+                aSwitch.setChecked(true);
+                user.setText(sp.getString("user", ""));
+                pass.setText(sp.getString("pass", ""));
+            }else {
+                aSwitch.setChecked(false);
+                user.setText("");
+                pass.setText("");
+            }
+            user.requestFocus();
+            super.onStart();
+        }
+
+        @Override
+        public void onStop() {
+            SharedPreferences sharedPreferences = getContext().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            if (guardar){
+                editor.putBoolean("cheked", true);
+                editor.putString("user", user.getText().toString());
+                editor.putString("pass", pass.getText().toString());
+                editor.apply();
+                editor.commit();
+            }else {
+                editor.putBoolean("cheked", false);
+                editor.putString("user", "");
+                editor.putString("pass", "");
+                editor.apply();
+                editor.commit();
+            }
+            super.onStop();
+        }
+    }
+
     /** ADAPTADOR **/
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -120,8 +205,11 @@ public class ViewPagerActivity extends AppCompatActivity {
                     return TimelineFragment.newInstance();
                 case (1):
                     return BussinesFragment.newInstance();
+                case (2):
+                    return PreferenciasFragment.newInstance();
+                default:
+                    return TimelineFragment.newInstance();
             }
-            return TimelineFragment.newInstance();
         }
 
         @Override
@@ -137,7 +225,7 @@ public class ViewPagerActivity extends AppCompatActivity {
                 case 1:
                     return "NEGOCIOS";
                 case 2:
-                    return "Fragment 3";
+                    return "PREFERENCIAS";
             }
             return null;
         }

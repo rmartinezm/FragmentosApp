@@ -59,17 +59,28 @@ public class TimelineAdapter extends BaseAdapter {
         TextView title= (TextView) v.findViewById(R.id.timeline_tv_title);
         ImageView iv = (ImageView) v.findViewById(R.id.timeline_image);
 
+        String urldisplay = historia.getImage();
+        Bitmap icon = null;
+        try {
+            icon = BitmapFactory.decodeStream((InputStream)new URL(urldisplay).getContent());
+        } catch (Exception e) {
+            //Log.e("Error", e.getMessage());
+            e.printStackTrace();
+        }
 
         user.setText(historia.getUser() +  " ");
         text.setText(historia.getText() +  " ");
         title.setText(historia.getTitle() +  " ");
+
+        if (icon != null)
+            iv.setImageBitmap(icon);
+
 
         /**
         Bitmap bm = getBitmapFromURL(historia.getImage());
         if (bm != null)
             iv.setImageBitmap(bm);
         **/
-
         return v;
     }
 
