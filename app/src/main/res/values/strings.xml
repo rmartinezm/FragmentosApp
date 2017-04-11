@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">FragmentosApp</string>
     <string name="Iniciando">Iniciando...</string>
-    <string name="title_activity_view_pager">ViewPagerActivity</string>
+    <string name="title_activity_view_pager">FragmentosApp</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="button_map">Ver en mapa</string>
