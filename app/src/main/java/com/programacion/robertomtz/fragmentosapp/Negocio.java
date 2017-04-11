@@ -2,11 +2,13 @@ package com.programacion.robertomtz.fragmentosapp;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by rmartinezm on 10/04/2017.
  */
 
-public class Negocio {
+public class Negocio implements Serializable{
 
     @SerializedName("name")
     private String nombre;
