@@ -48,8 +48,18 @@ public class BusinessAdapter extends BaseAdapter {
 
         Negocio negocio = negocios.get(position);
 
+
         TextView textView = (TextView) v.findViewById(R.id.business_tv_name);
         textView.setText(negocio.getNombre());
+        Button btn = (Button) v.findViewById(R.id.business_button_map);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MapsActivity.class);
+                context.startActivity(intent);
+            }
+        });
+
 
         return v;
     }
